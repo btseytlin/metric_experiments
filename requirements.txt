@@ -1,0 +1,10 @@
+git+https://github.com/KevinMusgrave/pytorch-metric-learning
+faiss-gpu
+umap-learn
+pynndescent
+record-keeper
+tensorboard
+torch
+numpy
+matplotlib
+Pillow
