@@ -2,7 +2,7 @@ import os
 import numpy as np
 import torch
 from torchvision import datasets, transforms
-from cub2011 import Cub2011
+from .cub2011 import Cub2011
 
 
 def get_transforms():

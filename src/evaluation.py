@@ -14,14 +14,10 @@ def get_inference_model(trunk, embedder):
     inference_model = InferenceModel(trunk, embedder=embedder, match_finder=match_finder)
     return inference_model
 
-def get_scores(inference_model, gallery_dataset, query_dataset, transform):
-    gallery_embeddings = get_many_embeddings([gallery_dataset[i][0] for i in range(len(gallery_dataset))], inference_model)
-    query_embeddings = get_many_embeddings([query_dataset[i][0] for i in range(len(query_dataset))], inference_model)
+def get_embeddings(inference_model, dataset):
+    return get_many_embeddings([dataset[i][0] for i in range(len(dataset))], inference_model)
 
-    gallery_labels = np.array([gallery_dataset[i][1] for i in range(len(gallery_dataset))])
-    query_labels = np.array([query_dataset[i][1] for i in range(len(query_dataset))])
-
-
+def get_scores(inference_model, gallery_embeddings, query_embeddings, gallery_labels, query_labels):
     calculator = AccuracyCalculator()
     scores_dict = calculator.get_accuracy(query_embeddings.numpy(),
                                        gallery_embeddings.numpy(),

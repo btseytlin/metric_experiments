@@ -22,7 +22,7 @@ def get_loss():
     return losses.TripletMarginLoss(margin=0.1)
 
 def get_miner():
-    return miners.TripletMarginMiner(margin=0.2, type_of_triplets='all')
+    return miners.TripletMarginMiner(margin=0.2, type_of_triplets='semihard')
 
 def get_sampler(dataset):
     return samplers.MPerClassSampler(dataset.targets, m=4, length_before_new_iter=len(dataset))
