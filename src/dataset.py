@@ -55,7 +55,8 @@ class ClassDisjointDataSet(torch.utils.data.Dataset):
         
     def __len__(self):
         return len(self.data)
-        
+            
+
     def __getitem__(self, index):            
         path, target = self.img_paths[index], self.targets[index]
         img = datasets.folder.default_loader(path)

@@ -68,6 +68,14 @@ class Cub2011(Dataset):
     def __len__(self):
         return len(self.data)
 
+    def target(self, idx):
+        sample = self.data.iloc[idx]
+        return sample.target - 1
+
+    def iter(self):
+        for idx in range(len(self)):
+            yield self[idx]
+
     def __getitem__(self, idx):
         sample = self.data.iloc[idx]
         path = os.path.join(self.root, self.base_folder, sample.filepath)
