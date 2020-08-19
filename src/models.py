@@ -29,10 +29,10 @@ def get_trunk(device):
     trunk = torchvision.models.resnet18(pretrained=True)
     trunk_output_size = trunk.fc.in_features
     trunk.fc = common_functions.Identity()
-    trunk = torch.nn.DataParallel(trunk.to(device))
+    trunk = trunk.to(device)
     return trunk, trunk_output_size
 
 def get_embedder(trunk_output_size, layers, device):
     # Set embedder model. This takes in the output of the trunk and outputs 64 dimensional embeddings
-    embedder = torch.nn.DataParallel(MLP([trunk_output_size, *layers]).to(device))
+    embedder = MLP([trunk_output_size, *layers]).to(device)
     return embedder

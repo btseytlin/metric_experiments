@@ -1,4 +1,4 @@
-git+https://github.com/KevinMusgrave/pytorch-metric-learning
+pytorch-metric-learning==0.9.90
 faiss-gpu
 umap-learn
 pynndescent

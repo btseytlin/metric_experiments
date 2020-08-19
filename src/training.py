@@ -6,7 +6,7 @@ import pytorch_metric_learning.utils.logging_presets as logging_presets
 import numpy as np
 from cycler import cycler
 import torch
-from pytorch_metric_learning import losses, miners, samplers, trainers, testers
+from pytorch_metric_learning import losses, miners, samplers, trainers, testers, distances
 
 import tensorflow as tf
 import tensorboard as tb
@@ -18,11 +18,14 @@ def get_optimizers(trunk, embedder):
     embedder_optimizer = torch.optim.Adam(embedder.parameters(), lr=0.001, weight_decay=0.0001)
     return trunk_optimizer, embedder_optimizer
 
+def get_distance():
+    return distances.LpDistance(normalize_embeddings=True, power=1)
+
 def get_loss():
-    return losses.TripletMarginLoss(margin=0.1)
+    return losses.TripletMarginLoss(margin=0.1, distance=get_distance())
 
 def get_miner():
-    return miners.TripletMarginMiner(margin=0.2, type_of_triplets='all')
+    return miners.TripletMarginMiner(margin=0.2, type_of_triplets='all', distance=get_distance())
 
 def get_sampler(dataset):
     return samplers.MPerClassSampler(dataset.targets, m=4, length_before_new_iter=len(dataset))

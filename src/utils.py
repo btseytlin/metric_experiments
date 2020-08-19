@@ -26,5 +26,5 @@ def git_version():
 
     return GIT_REVISION
 
-def get_experiment_id():
-    return datetime.datetime.now().strftime("%m-%d %H:%M")
+def get_experiment_id(postfix):
+    return datetime.datetime.now().strftime("%m-%d_%H:%M") + '_' + postfix
