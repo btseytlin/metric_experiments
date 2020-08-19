@@ -8,7 +8,7 @@ from pytorch_metric_learning.distances import CosineSimilarity
 def get_model_device(model):
     return next(model.parameters()).device
 
-def get_many_embeddings(tensors, inference_model, batch_size=128, emb_dim=256):
+def get_many_embeddings(tensors, inference_model, batch_size=64, emb_dim=256):
     embeddings = torch.Tensor(len(tensors), emb_dim)
     for i in trange(0, len(tensors), batch_size):
         embeddings[i:i + batch_size] = inference_model.get_embeddings(torch.stack(tensors[i:i + batch_size]).to(get_model_device(inference_model.trunk)), None)[0]
@@ -19,8 +19,8 @@ def get_inference_model(trunk, embedder):
     inference_model = InferenceModel(trunk, embedder=embedder, match_finder=match_finder)
     return inference_model
 
-def get_embeddings(inference_model, dataset):
-    return get_many_embeddings([dataset[i][0] for i in range(len(dataset))], inference_model)
+def get_embeddings(inference_model, images):
+    return get_many_embeddings(images, inference_model)
 
 def get_scores(inference_model, gallery_embeddings, query_embeddings, gallery_labels, query_labels):
     calculator = AccuracyCalculator()
