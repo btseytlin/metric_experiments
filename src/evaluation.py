@@ -3,7 +3,6 @@ import numpy as np
 import torch
 from pytorch_metric_learning.utils.accuracy_calculator import AccuracyCalculator
 from pytorch_metric_learning.utils.inference import MatchFinder, InferenceModel
-from pytorch_metric_learning.distances import CosineSimilarity
 
 def get_model_device(model):
     return next(model.parameters()).device
@@ -22,7 +21,7 @@ def get_many_embeddings(dataset, inference_model, batch_size=64, emb_dim=256):
     return embeddings
 
 def get_inference_model(trunk, embedder):
-    match_finder = MatchFinder(distance=CosineSimilarity(), threshold=0.7)
+    match_finder = MatchFinder(mode="sim", threshold=0.7)
     inference_model = InferenceModel(trunk, embedder=embedder, match_finder=match_finder)
     return inference_model
 

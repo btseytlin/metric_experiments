@@ -6,7 +6,7 @@ import pytorch_metric_learning.utils.logging_presets as logging_presets
 import numpy as np
 from cycler import cycler
 import torch
-from pytorch_metric_learning import losses, miners, samplers, trainers, testers, distances
+from pytorch_metric_learning import losses, miners, samplers, trainers, testers
 
 import tensorflow as tf
 import tensorboard as tb
@@ -18,14 +18,12 @@ def get_optimizers(trunk, embedder):
     embedder_optimizer = torch.optim.Adam(embedder.parameters(), lr=0.001, weight_decay=0.0001)
     return trunk_optimizer, embedder_optimizer
 
-def get_distance():
-    return distances.LpDistance(normalize_embeddings=True, power=1)
 
 def get_loss():
-    return losses.TripletMarginLoss(margin=0.1, distance=get_distance())
+    return losses.TripletMarginLoss(margin=0.1)
 
 def get_miner():
-    return miners.TripletMarginMiner(margin=0.2, type_of_triplets='all', distance=get_distance())
+    return miners.TripletMarginMiner(margin=0.2, type_of_triplets='all')
 
 def get_sampler(dataset):
     return samplers.MPerClassSampler(dataset.targets, m=4, length_before_new_iter=len(dataset))
@@ -56,7 +54,7 @@ def get_testing_hooks(experiment_id, val_dataset, test_interval, patience):
     tester = testers.GlobalEmbeddingSpaceTester(end_of_testing_hook = hooks.end_of_testing_hook, 
                                                 visualizer = umap.UMAP(), 
                                                 visualizer_hook = visualizer_hook,
-                                                dataloader_num_workers = 32)
+                                                dataloader_num_workers = 6)
     end_of_epoch_hook = hooks.end_of_epoch_hook(tester, 
                                                 dataset_dict, 
                                                 model_folder, 
