@@ -1,4 +1,4 @@
-pytorch-metric-learning==0.9.88
+pytorch-metric-learning==0.9.89
 faiss-gpu
 umap-learn
 pynndescent
